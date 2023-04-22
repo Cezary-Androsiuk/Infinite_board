@@ -9,7 +9,7 @@
 #define WINDOW_WIDTH 1920/2
 #define WINDOW_HEIGHT 1080/2
 
-#define PLANE_MOVE_SPEED 4.f
+#define PLANE_MOVE_SPEED 1.f
 
 #endif
 

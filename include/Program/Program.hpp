@@ -11,6 +11,7 @@ class Program{
     sf::RectangleShape moveBorders[4];
 
     Plane* plane;
+    sf::Texture planeBackgroundTexture;
 
     void loadSources();
     void initData();

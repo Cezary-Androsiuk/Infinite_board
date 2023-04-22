@@ -4,14 +4,18 @@
 
 class Plane{
     sf::Vector2f position;
-    sf::Vector2f positionError;
+    sf::Vector2u positionError;
+    sf::Vector2u areaSize;
     
+    const sf::Texture* backgroundTexture;
+    sf::Sprite background;
+
     sf::RectangleShape rs;
     
-    void initData(const sf::Vector2u&);
+    void initData(const sf::Vector2u&, const sf::Texture*);
     void initShapes();
 public:
-    Plane(const sf::Vector2u&);
+    Plane(const sf::Vector2u&, const sf::Texture*);
     ~Plane();
 
     void updateObjectPos();

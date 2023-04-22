@@ -2,7 +2,11 @@
 
 
 void Program::loadSources(){
-    
+    if(!this->planeBackgroundTexture.loadFromFile("sources/planeBackground.png")){
+        exit(1);
+    }
+    this->planeBackgroundTexture.setSmooth(false);
+    this->planeBackgroundTexture.setRepeated(true);
 }
 
 void Program::initData(){
@@ -39,11 +43,11 @@ void Program::initShapes(){
         0.f, this->window->getSize().y - this->moveBorders[3].getSize().y));
 
     for(sf::RectangleShape& r : this->moveBorders){
-        r.setFillColor(sf::Color(255,30,30,30));
+        r.setFillColor(sf::Color(255,30,30,0));
     }
 
 
-    this->plane = new Plane(this->window->getSize());
+    this->plane = new Plane(this->window->getSize(), &this->planeBackgroundTexture);
 
 }
 
