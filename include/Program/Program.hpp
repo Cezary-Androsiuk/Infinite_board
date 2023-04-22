@@ -7,8 +7,7 @@ class Program{
     sf::VideoMode videoMode;
     sf::Event currentEvent;
 
-    sf::Texture move_borders;
-    std::vector<sf::Sprite*> leftSide, rightSide, topSide, bottomSide;
+    sf::RectangleShape moveBorders[4];
 
     void loadSources();
     void initData();

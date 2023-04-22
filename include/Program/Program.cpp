@@ -2,12 +2,7 @@
 
 
 void Program::loadSources(){
-    if(!this->move_borders.loadFromFile("sources/move_borders.png")){
-        exit(1);
-    }
-    this->move_borders.setSmooth(false);
-    this->move_borders.setRepeated(false);
-
+    
 }
 
 void Program::initData(){
@@ -25,123 +20,30 @@ void Program::initWindow(){
 }
 
 void Program::initShapes(){
-    const float scale = 0.5f;
-    const unsigned int partTextureWidth = (this->move_borders.getSize().x / 2) * scale;
-    const unsigned int partTextureHeight = (this->move_borders.getSize().y / 2) * scale;
+    // left
+    this->moveBorders[0].setSize(sf::Vector2f(40.f, this->window->getSize().y));
+    this->moveBorders[0].setPosition(sf::Vector2f(0.f, 0.f));
 
-    for(int i=0; i<20; i++){
-        this->leftSide.push_back(new sf::Sprite(this->move_borders));
-        this->leftSide.back()->setPosition(sf::Vector2f(0.f, 20.f + partTextureHeight*i));
-        this->leftSide.back()->setTextureRect(sf::IntRect(
-            sf::Vector2i(0,0), sf::Vector2i(50,50)));
-    }
-    // this->leftSide.back()->setPosition(sf::Vector2f(0.f, this->window->getSize().y - 20.f - partTextureHeight));
-    (*this->leftSide.begin())->setTextureRect(sf::IntRect(
-        sf::Vector2i(0,50), sf::Vector2i(50,50)));
-    this->leftSide.back()->setTextureRect(sf::IntRect(
-        sf::Vector2i(50,0), sf::Vector2i(50,50)));
-    for(sf::Sprite* s : this->leftSide){
-        s->setScale(sf::Vector2f(scale, scale));
-        s->setColor(sf::Color(255,255,255,100));
-    }
+    // right
+    this->moveBorders[1].setSize(sf::Vector2f(40.f, this->window->getSize().y));
+    this->moveBorders[1].setPosition(sf::Vector2f(
+        this->window->getSize().x - this->moveBorders[1].getSize().x, 0.f));
 
+    // top
+    this->moveBorders[2].setSize(sf::Vector2f(this->window->getSize().x, 40.f));
+    this->moveBorders[2].setPosition(sf::Vector2f(0.f, 0.f));
 
+    // bottom
+    this->moveBorders[3].setSize(sf::Vector2f(this->window->getSize().x, 40.f));
+    this->moveBorders[3].setPosition(sf::Vector2f(
+        0.f, this->window->getSize().y - this->moveBorders[3].getSize().y));
 
-    this->rightSide.push_back(new sf::Sprite(this->move_borders));
-    this->rightSide.back()->setPosition(sf::Vector2f(this->window->getSize().x, 20.f + partTextureHeight));
-    this->rightSide.back()->setTextureRect(sf::IntRect(
-        sf::Vector2i(50,0),
-        sf::Vector2i(50,50)
-    ));
-    this->rightSide.back()->setRotation(180);
-    for(int i=0; i<18; i++){
-        this->rightSide.push_back(new sf::Sprite(this->move_borders));
-        this->rightSide.back()->setPosition(sf::Vector2f(this->window->getSize().x - partTextureWidth, 20.f + partTextureHeight*(i+1)));
-        this->rightSide.back()->setTextureRect(sf::IntRect(
-            sf::Vector2i(0,0),
-            sf::Vector2i(50,50)
-        ));
-    }
-    this->rightSide.push_back(new sf::Sprite(this->move_borders));
-    this->rightSide.back()->setPosition(sf::Vector2f(this->window->getSize().x, this->window->getSize().y - 20.f));
-    this->rightSide.back()->setTextureRect(sf::IntRect(
-        sf::Vector2i(0,50),
-        sf::Vector2i(50,50)
-    ));
-    this->rightSide.back()->setRotation(180);
-    for(sf::Sprite* s : this->rightSide){
-        s->setScale(sf::Vector2f(scale, scale));
-        s->setColor(sf::Color(255,255,255,100));
-    }
-
-
-
-    this->topSide.push_back(new sf::Sprite(this->move_borders));
-    this->topSide.back()->setPosition(sf::Vector2f(30.f + partTextureWidth, 0.f));
-    this->topSide.back()->setTextureRect(sf::IntRect(
-        sf::Vector2i(50,0),
-        sf::Vector2i(50,50)
-    ));
-    this->topSide.back()->setRotation(90);
-    for(int i=0; i<34; i++){
-        this->topSide.push_back(new sf::Sprite(this->move_borders));
-        this->topSide.back()->setPosition(sf::Vector2f(30.f + partTextureWidth*(i+1), 0.f));
-        this->topSide.back()->setTextureRect(sf::IntRect(
-            sf::Vector2i(0,0),
-            sf::Vector2i(50,50)
-        ));
-    }
-    this->topSide.push_back(new sf::Sprite(this->move_borders));
-    this->topSide.back()->setPosition(sf::Vector2f(this->window->getSize().x - 30.f, 0.f));
-    this->topSide.back()->setTextureRect(sf::IntRect(
-        sf::Vector2i(0,50),
-        sf::Vector2i(50,50)
-    ));
-    this->topSide.back()->setRotation(90);
-    for(sf::Sprite* s : this->topSide){
-        s->setScale(sf::Vector2f(scale, scale));
-        s->setColor(sf::Color(255,255,255,100));
-    }
-
-
-
-    this->bottomSide.push_back(new sf::Sprite(this->move_borders));
-    this->bottomSide.back()->setPosition(sf::Vector2f(30.f, this->window->getSize().y));
-    this->bottomSide.back()->setTextureRect(sf::IntRect(
-        sf::Vector2i(0,50),
-        sf::Vector2i(50,50)
-    ));
-    this->bottomSide.back()->setRotation(-90);
-    for(int i=0; i<34; i++){
-        this->bottomSide.push_back(new sf::Sprite(this->move_borders));
-        this->bottomSide.back()->setPosition(sf::Vector2f(30.f + partTextureWidth*(i+1), this->window->getSize().y - partTextureHeight));
-        this->bottomSide.back()->setTextureRect(sf::IntRect(
-            sf::Vector2i(0,0),
-            sf::Vector2i(50,50)
-        ));
-    }
-    this->bottomSide.push_back(new sf::Sprite(this->move_borders));
-    this->bottomSide.back()->setPosition(sf::Vector2f(this->window->getSize().x - 30.f - partTextureWidth, this->window->getSize().y));
-    this->bottomSide.back()->setTextureRect(sf::IntRect(
-        sf::Vector2i(50,0),
-        sf::Vector2i(50,50)
-    ));
-    this->bottomSide.back()->setRotation(-90);
-    for(sf::Sprite* s : this->bottomSide){
-        s->setScale(sf::Vector2f(scale, scale));
-        s->setColor(sf::Color(255,255,255,100));
+    for(sf::RectangleShape& r : this->moveBorders){
+        r.setFillColor(sf::Color(255,30,30,60));
     }
 }
 
 void Program::delShapes(){
-    for(sf::Sprite* s : this->leftSide)
-        delete s;
-    for(sf::Sprite* s : this->rightSide)
-        delete s;
-    for(sf::Sprite* s : this->topSide)
-        delete s;
-    for(sf::Sprite* s : this->bottomSide)
-        delete s;
 }
 
 Program::Program(){
@@ -190,14 +92,8 @@ void Program::update(){
 void Program::render(){
     this->window->clear(sf::Color(30,30,30));
 
-    for(sf::Sprite* s : this->leftSide)
-        this->window->draw(*s);
-    for(sf::Sprite* s : this->rightSide)
-        this->window->draw(*s);
-    for(sf::Sprite* s : this->topSide)
-        this->window->draw(*s);
-    for(sf::Sprite* s : this->bottomSide)
-        this->window->draw(*s);
+    for(sf::RectangleShape& r : this->moveBorders)
+        this->window->draw(r);
 
     this->window->display();
 }
