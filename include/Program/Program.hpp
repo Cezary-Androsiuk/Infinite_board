@@ -7,9 +7,13 @@ class Program{
     sf::VideoMode videoMode;
     sf::Event currentEvent;
 
+    sf::Texture move_borders;
+    std::vector<sf::Sprite*> leftSide, rightSide, topSide, bottomSide;
+
+    void loadSources();
     void initData();
-    void initShapes();
     void initWindow();
+    void initShapes();
     
     void delShapes();
 public:
