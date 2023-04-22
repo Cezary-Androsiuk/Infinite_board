@@ -18,8 +18,8 @@ void Plane::initShapes(){
     this->background.setTextureRect(sf::IntRect(
         sf::Vector2i(0,0),
         sf::Vector2i( // set size of sprite that is divided by texture size 
-            ((this->areaSize.x / this->backgroundTexture->getSize().x) + 2) * this->backgroundTexture->getSize().x, 
-            ((this->areaSize.y / this->backgroundTexture->getSize().y) + 2) * this->backgroundTexture->getSize().y)
+            ((this->areaSize.x / this->backgroundTexture->getSize().x) + 3) * this->backgroundTexture->getSize().x, 
+            ((this->areaSize.y / this->backgroundTexture->getSize().y) + 3) * this->backgroundTexture->getSize().y)
     ));
 }
 
@@ -36,11 +36,23 @@ void Plane::updateObjectPos(){
         this->position.x + this->positionError.x,
         this->position.y + this->positionError.y
     ));
-    // this multiply by 100 keeps float precision 
-    const float backgroundWidth = (((int)(this->position.x*100.f)) % (this->backgroundTexture->getSize().x * 100))/100.f - 
-        this->backgroundTexture->getSize().x;
-    const float backgroundHeight = (((int)(this->position.y*100.f)) % (this->backgroundTexture->getSize().y * 100))/100.f - 
-        this->backgroundTexture->getSize().y;
+    
+    float backgroundWidth = this->position.x;
+    float backgroundHeight = this->position.y;
+
+    while(backgroundWidth <= - (float)this->backgroundTexture->getSize().x)
+        backgroundWidth += this->backgroundTexture->getSize().x;
+    while(backgroundWidth >= (float)this->backgroundTexture->getSize().x)
+        backgroundWidth -= this->backgroundTexture->getSize().x;
+    backgroundWidth -= this->backgroundTexture->getSize().x;
+
+    while(backgroundHeight <= - (float)this->backgroundTexture->getSize().y)
+        backgroundHeight += this->backgroundTexture->getSize().y;
+    while(backgroundHeight >= (float)this->backgroundTexture->getSize().y)
+        backgroundHeight -= this->backgroundTexture->getSize().y;
+    backgroundHeight -= this->backgroundTexture->getSize().y;
+
+
     this->background.setPosition(sf::Vector2f(
         backgroundWidth,
         backgroundHeight
