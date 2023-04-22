@@ -39,12 +39,17 @@ void Program::initShapes(){
         0.f, this->window->getSize().y - this->moveBorders[3].getSize().y));
 
     for(sf::RectangleShape& r : this->moveBorders){
-        r.setFillColor(sf::Color(255,30,30,60));
+        r.setFillColor(sf::Color(255,30,30,30));
     }
+
+
+    this->plane = new Plane(this->window->getSize());
+
 }
 
 void Program::delShapes(){
-}
+    delete this->plane;
+}   
 
 Program::Program(){
     this->loadSources();
@@ -84,13 +89,37 @@ void Program::pollEvent(){
     }
 }
 
+void Program::updatePlanePos(){
+    if(this->moveBorders[0].getGlobalBounds().contains(this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window)))){
+        // left (move plane right)
+        this->plane->move(sf::Vector2f(PLANE_MOVE_SPEED, 0.f));
+    }
+    else if(this->moveBorders[1].getGlobalBounds().contains(this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window)))){
+        // right (move plane left)
+        this->plane->move(sf::Vector2f(- PLANE_MOVE_SPEED, 0.f));
+    }
+
+    if(this->moveBorders[2].getGlobalBounds().contains(this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window)))){
+        // top (move plane down)
+        this->plane->move(sf::Vector2f(0.f, PLANE_MOVE_SPEED));
+    }
+    else if(this->moveBorders[3].getGlobalBounds().contains(this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window)))){
+        // bottom (move plane up)
+        this->plane->move(sf::Vector2f(0.f, - PLANE_MOVE_SPEED));
+    }
+}
+
 void Program::update(){
     this->pollEvent();
 
+    this->updatePlanePos();
+    this->plane->update();
 }
 
 void Program::render(){
     this->window->clear(sf::Color(30,30,30));
+
+    this->plane->render(this->window);
 
     for(sf::RectangleShape& r : this->moveBorders)
         this->window->draw(r);

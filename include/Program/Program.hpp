@@ -1,6 +1,7 @@
 #ifndef PROGRAM_HPP
 #define PROGRAM_HPP
 #include "../include.hpp"
+#include "../Plane/Plane.hpp"
 
 class Program{
     sf::RenderWindow* window;
@@ -8,6 +9,8 @@ class Program{
     sf::Event currentEvent;
 
     sf::RectangleShape moveBorders[4];
+
+    Plane* plane;
 
     void loadSources();
     void initData();
@@ -21,6 +24,7 @@ public:
 
     void pollEvent();
     
+    void updatePlanePos();
 public:
 
     void update();
