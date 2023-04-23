@@ -43,7 +43,7 @@ void Program::initShapes(){
         0.f, this->window->getSize().y - this->moveBorders[3].getSize().y));
 
     for(sf::RectangleShape& r : this->moveBorders){
-        r.setFillColor(sf::Color(255,30,30,0));
+        r.setFillColor(sf::Color(255,30,30,10));
     }
 
 
@@ -81,10 +81,10 @@ void Program::pollEvent(){
             break;
         case sf::Event::MouseButtonPressed:
             if(this->currentEvent.mouseButton.button == sf::Mouse::Left){
-                // add new rectangle
+                this->plane->addObject(this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window)));
             }
             else if(this->currentEvent.mouseButton.button == sf::Mouse::Right){
-                // remove rectangle if contains mouse pos
+                this->plane->delObject(this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window)));
             }
             break;
         default:

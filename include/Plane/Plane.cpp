@@ -13,7 +13,6 @@ void Plane::initData(const sf::Vector2u& windowSize, const sf::Texture* bgTex){
 }
 void Plane::initShapes(){
     this->updateObjectPos();
-    this->rs.setSize(sf::Vector2f(100.f, 100.f));
 
     this->background.setTextureRect(sf::IntRect(
         sf::Vector2i(0,0),
@@ -28,14 +27,19 @@ Plane::Plane(const sf::Vector2u& windowSize, const sf::Texture* bgTex){
     this->initShapes();
 }
 Plane::~Plane(){
-    
+    for(RectangleShape_Position* rs_p : this->rectangles){
+        delete rs_p->rs;
+        delete rs_p;
+    }
 }
 
 void Plane::updateObjectPos(){
-    this->rs.setPosition(sf::Vector2f(
-        this->position.x + this->positionError.x,
-        this->position.y + this->positionError.y
-    ));
+    for(RectangleShape_Position* rs_p : this->rectangles)
+        rs_p->rs->setPosition(sf::Vector2f(
+            this->position.x + rs_p->p.x,
+            this->position.y + rs_p->p.y
+        ));
+        
     
     float backgroundWidth = this->position.x;
     float backgroundHeight = this->position.y;
@@ -63,11 +67,38 @@ void Plane::move(const sf::Vector2f& moveVector){
     this->position.x += moveVector.x;
     this->position.y += moveVector.y;
 }
+void Plane::addObject(const sf::Vector2f& mousePosition){
+    RectangleShape_Position* rs_p = new RectangleShape_Position();
+    rs_p->rs = new sf::RectangleShape();
+    rs_p->p = sf::Vector2f(mousePosition.x - this->position.x, mousePosition.y - this->position.y);
+
+    rs_p->rs->setSize(sf::Vector2f(40.f, 40.f));
+    rs_p->rs->setOrigin(sf::Vector2f(rs_p->rs->getSize().x/2, rs_p->rs->getSize().y/2));
+    this->rectangles.push_back(rs_p);
+}
+void Plane::delObject(const sf::Vector2f& mousePosition){
+    // int i=0;
+    // for(sf::RectangleShape* rs : this->rectangles){
+    //     if(rs->getGlobalBounds().contains(mousePosition))
+    //         delete rs;
+    //         // this->rectangles.erase(this->rectangles.);
+    //     i++;
+    // }
+    for(int i=0; i<this->rectangles.size(); i++){
+        if(this->rectangles[i]->rs->getGlobalBounds().contains(mousePosition)){
+            delete this->rectangles[i]->rs;
+            delete this->rectangles[i];
+            this->rectangles.erase(this->rectangles.begin() + i);
+        }
+    }
+
+}
 
 void Plane::update(){
     this->updateObjectPos();
 }
 void Plane::render(sf::RenderTarget* window){
     window->draw(this->background);
-    window->draw(this->rs);
+    for(RectangleShape_Position* rs_p : this->rectangles)
+        window->draw(*rs_p->rs);
 }

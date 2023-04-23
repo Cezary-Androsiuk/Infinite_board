@@ -10,7 +10,15 @@ class Plane{
     const sf::Texture* backgroundTexture;
     sf::Sprite background;
 
-    sf::RectangleShape rs;
+    class RectangleShape_Position{
+    public:
+        sf::RectangleShape* rs;
+        sf::Vector2f p;
+    };
+    
+
+    // sf::RectangleShape rs;
+    std::vector<RectangleShape_Position*> rectangles;
     
     void initData(const sf::Vector2u&, const sf::Texture*);
     void initShapes();
@@ -21,6 +29,8 @@ public:
     void updateObjectPos();
 public:
     void move(const sf::Vector2f&);
+    void addObject(const sf::Vector2f&);
+    void delObject(const sf::Vector2f&);
 
     void update();
     void render(sf::RenderTarget*);
