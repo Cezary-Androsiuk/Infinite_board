@@ -77,13 +77,6 @@ void Plane::addObject(const sf::Vector2f& mousePosition){
     this->rectangles.push_back(rs_p);
 }
 void Plane::delObject(const sf::Vector2f& mousePosition){
-    // int i=0;
-    // for(sf::RectangleShape* rs : this->rectangles){
-    //     if(rs->getGlobalBounds().contains(mousePosition))
-    //         delete rs;
-    //         // this->rectangles.erase(this->rectangles.);
-    //     i++;
-    // }
     for(int i=0; i<this->rectangles.size(); i++){
         if(this->rectangles[i]->rs->getGlobalBounds().contains(mousePosition)){
             delete this->rectangles[i]->rs;
